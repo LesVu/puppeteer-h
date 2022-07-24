@@ -1,0 +1,9 @@
+{
+  "name": "puppeteer-h",
+  "version": "1.0.0",
+  "description": "Scrap",
+  "main": "main.js",
+  "scripts": {},
+  "author": "LesVu",
+  "license": "MIT"
+}
