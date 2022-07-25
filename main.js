@@ -9,10 +9,10 @@ puppeteer.use(StealthPlugin());
 // puppeteer usage as normal
 puppeteer.launch({ headless: true }).then(async browser => {
   console.log('Check the bot tests..');
-  const page = await browser.newPage();
-  await page.goto('https://bot.sannysoft.com');
+  // const page = await browser.newPage();
+  const page = (await browser.pages())[0];
+  await page.goto('');
   await page.waitFor(5000);
   await page.screenshot({ path: 'bot-test-result.png', fullPage: true });
   await browser.close();
-  console.log(`All done, check the bot result screenshot. `);
 });
