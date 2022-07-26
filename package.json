@@ -7,8 +7,12 @@
   "author": "LesVu",
   "license": "MIT",
   "dependencies": {
+    "lodash": "^4.17.21",
     "puppeteer": "^15.5.0",
     "puppeteer-extra": "^3.3.4",
+    "puppeteer-extra-plugin-adblocker": "^2.13.4",
+    "puppeteer-extra-plugin-anonymize-ua": "^2.4.4",
+    "puppeteer-extra-plugin-recaptcha": "^3.6.6",
     "puppeteer-extra-plugin-stealth": "^2.11.0"
   }
 }
