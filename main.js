@@ -5,7 +5,6 @@ const puppeteer = require('puppeteer-extra');
 // add stealth plugin and use defaults (all evasion techniques)
 const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 puppeteer.use(StealthPlugin());
-
 // puppeteer usage as normal
 puppeteer.launch({ headless: true }).then(async browser => {
   console.log('Check the bot tests..');
@@ -14,5 +13,11 @@ puppeteer.launch({ headless: true }).then(async browser => {
   await page.goto('');
   await page.waitFor(5000);
   await page.screenshot({ path: 'bot-test-result.png', fullPage: true });
+  await page.evaluate(() => {
+    let s = document.querySelectorAll(
+      '.container.index-container.index-popular div.gallery'
+    );
+    console.log(s);
+  });
   await browser.close();
 });
