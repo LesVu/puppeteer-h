@@ -27,7 +27,7 @@ puppeteer
       'Mozilla/5.0 (Linux; U; Android 8.1.0; en-US; Nexus 6P Build/OPM7.181205.001) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/57.0.2987.108 UCBrowser/12.11.1.1197 Mobile Safari/537.36'
     );
 
-    await page.goto('https://');
+    await page.goto('https://nhentai.net');
 
     await page.waitForTimeout(10000);
 
@@ -47,11 +47,16 @@ puppeteer
 
     let tempdata1 = fs.readFileSync('data.json', { encoding: 'utf8' });
     // parse JSON object
-    const tempdata = JSON.parse(tempdata1.toString());
-    console.log('Data read');
+    let tempdata;
+    if (!lodash.isEmpty(tempdata1)) {
+      tempdata = JSON.parse(tempdata1.toString());
+      console.log('Data read');
+    }
     // print JSON object
 
     function getDifference(array1, array2) {
+      if (!array1) return { a: 'placeholder' };
+      if (!array2) return { a: 'placeholder' };
       return array1.filter(object1 => {
         return !array2.some(object2 => {
           return object1.id === object2.id;
@@ -59,20 +64,22 @@ puppeteer
       });
     }
 
-    if (!lodash.isEmpty(getDifference(tempdata, resPage))) {
+    // if (!lodash.isEmpty(getDifference(tempdata, resPage))) {
+    if (true) {
       const db = await open({
         filename: 'data.db',
         driver: sqlite3.Database,
       });
       await db.exec(`CREATE TABLE IF NOT EXISTS DataNH (
-  	id INT NOT NULL,
-  	name TEXT CHARACTER NOT NULL,
-    link TEXT CHARACTER NOT NULL,
-  	img_link TEXT CHARACTER NOT NULL
-    );`);
+  	  id INT NOT NULL,
+  	  name TEXT CHARACTER NOT NULL,
+      link TEXT CHARACTER NOT NULL,
+  	  img_link TEXT CHARACTER NOT NULL,
+      unique (id, link)
+      );`);
       resPage.forEach(async i => {
         await db.exec(
-          `INSERT INTO DataNH VALUES (${i.id}, ${i.name}, ${i.link}, ${i.img})`
+          `INSERT OR IGNORE INTO DataNH VALUES ("${i.id}", "${i.name}", "${i.link}", "${i.img}")`
         );
       });
       const data = JSON.stringify(resPage, null, 2);
