@@ -3,6 +3,8 @@
 const puppeteer = require('puppeteer-extra');
 const lodash = require('lodash');
 const fs = require('fs');
+const { open } = require('sqlite');
+const sqlite3 = require('sqlite3');
 
 // add stealth plugin and use defaults (all evasion techniques)
 const StealthPlugin = require('puppeteer-extra-plugin-stealth');
@@ -58,6 +60,21 @@ puppeteer
     }
 
     if (!lodash.isEmpty(getDifference(tempdata, resPage))) {
+      const db = await open({
+        filename: 'data.db',
+        driver: sqlite3.Database,
+      });
+      await db.exec(`CREATE TABLE IF NOT EXISTS DataNH (
+  	id INT NOT NULL,
+  	name TEXT CHARACTER NOT NULL,
+    link TEXT CHARACTER NOT NULL,
+  	img_link TEXT CHARACTER NOT NULL
+    );`);
+      resPage.forEach(async i => {
+        await db.exec(
+          `INSERT INTO DataNH VALUES (${i.id}, ${i.name}, ${i.link}, ${i.img})`
+        );
+      });
       const data = JSON.stringify(resPage, null, 2);
       try {
         fs.writeFileSync('data.json', data);
@@ -65,6 +82,7 @@ puppeteer
       } catch (error) {
         console.error(err);
       }
+      await db.close();
     }
 
     await browser.close();
