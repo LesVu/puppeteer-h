@@ -21,6 +21,7 @@ async function sqlite(data) {
       `INSERT OR IGNORE INTO DataNH VALUES ("${i.id}", "${i.name}", "${i.link}", "${i.img}")`
     );
   });
+  await db.close();
 }
 
 async function mongodb(data) {

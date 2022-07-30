@@ -75,7 +75,6 @@ puppeteer
       } catch (error) {
         console.error(err);
       }
-      await db.close();
     }
 
     await browser.close();
