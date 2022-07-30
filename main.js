@@ -5,7 +5,7 @@
 const puppeteer = require('puppeteer-extra');
 const lodash = require('lodash');
 const fs = require('fs');
-const { sqlite, mongodb } = require('db.js');
+const { sqlite, mongodb } = require('./db.js');
 // add stealth plugin and use defaults (all evasion techniques)
 const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 const AdBlocker = require('puppeteer-extra-plugin-adblocker');

@@ -4,7 +4,7 @@ const { open } = require('sqlite');
 const sqlite3 = require('sqlite3');
 const mongoose = require('mongoose');
 
-export async function sqlite(data) {
+module.exports = async function sqlite(data) {
   const db = await open({
     filename: 'data.db',
     driver: sqlite3.Database,
@@ -21,9 +21,9 @@ export async function sqlite(data) {
       `INSERT OR IGNORE INTO DataNH VALUES ("${i.id}", "${i.name}", "${i.link}", "${i.img}")`
     );
   });
-}
+};
 
-export async function mongodb(data) {
+module.exports = async function mongodb(data) {
   try {
     await mongoose.connect('mongodb://localhost:27017/DataNH');
     const ScrapSchema = new mongoose.Schema({
@@ -53,4 +53,4 @@ export async function mongodb(data) {
   } catch (error) {
     console.log(error);
   }
-}
+};
