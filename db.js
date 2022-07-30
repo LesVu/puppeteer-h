@@ -49,7 +49,12 @@ async function mongodb(data) {
     });
     const Scraped = mongoose.model('Scraped', ScrapSchema);
     data.forEach(async i => {
-      new Scraped({ id: i.id, name: i.name, link: i.link, img_link: i.img });
+      const scrap = new Scraped({
+        id: i.id,
+        name: i.name,
+        link: i.link,
+        img_link: i.img,
+      });
     });
     await db.disconnect();
   } catch (error) {
