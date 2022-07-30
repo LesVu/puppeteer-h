@@ -1,11 +1,11 @@
+'use strict';
+
 // puppeteer-extra is a wrapper around puppeteer,
 // it augments the installed puppeteer with plugin functionality
 const puppeteer = require('puppeteer-extra');
 const lodash = require('lodash');
 const fs = require('fs');
-const { open } = require('sqlite');
-const sqlite3 = require('sqlite3');
-
+const { sqlite, mongodb } = require('db.js');
 // add stealth plugin and use defaults (all evasion techniques)
 const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 const AdBlocker = require('puppeteer-extra-plugin-adblocker');
@@ -64,24 +64,10 @@ puppeteer
       });
     }
 
-    // if (!lodash.isEmpty(getDifference(tempdata, resPage))) {
-    if (true) {
-      const db = await open({
-        filename: 'data.db',
-        driver: sqlite3.Database,
-      });
-      await db.exec(`CREATE TABLE IF NOT EXISTS DataNH (
-  	  id INT NOT NULL,
-  	  name TEXT CHARACTER NOT NULL,
-      link TEXT CHARACTER NOT NULL,
-  	  img_link TEXT CHARACTER NOT NULL,
-      unique (id, link)
-      );`);
-      resPage.forEach(async i => {
-        await db.exec(
-          `INSERT OR IGNORE INTO DataNH VALUES ("${i.id}", "${i.name}", "${i.link}", "${i.img}")`
-        );
-      });
+    if (!lodash.isEmpty(getDifference(tempdata, resPage))) {
+      // if (true) {
+      mongodb(resPage);
+      sqlite(resPage);
       const data = JSON.stringify(resPage, null, 2);
       try {
         fs.writeFileSync('data.json', data);
