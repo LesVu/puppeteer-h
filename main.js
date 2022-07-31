@@ -64,8 +64,8 @@ puppeteer
       });
     }
 
-    if (!lodash.isEmpty(getDifference(tempdata, resPage))) {
-      // if (true) {
+//    if (!lodash.isEmpty(getDifference(tempdata, resPage))) {
+      if (true) {
       mongodb(resPage);
       sqlite(resPage);
       const data = JSON.stringify(resPage, null, 2);

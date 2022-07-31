@@ -26,7 +26,7 @@ async function sqlite(data) {
 
 async function mongodb(data) {
   try {
-    const db = await mongoose.connect('mongodb://localhost:27017/DataNH');
+    const db = await mongoose.connect('mongodb://127.0.0.1:27017/DataNH');
     const ScrapSchema = new mongoose.Schema({
       id: {
         type: Number,
@@ -42,20 +42,13 @@ async function mongodb(data) {
         required: true,
         unique: true,
       },
-      img_link: {
+      img: {
         type: String,
         required: true,
       },
     });
     const Scraped = mongoose.model('Scraped', ScrapSchema);
-    data.forEach(async i => {
-      const scrap = new Scraped({
-        id: i.id,
-        name: i.name,
-        link: i.link,
-        img_link: i.img,
-      });
-    });
+    await Scraped.insertMany(data, function(error, docs) {console.log(error)});
     await db.disconnect();
   } catch (error) {
     console.log(error);
