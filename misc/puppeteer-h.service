@@ -1,0 +1,6 @@
+[Unit]
+Description=Run Puppeteer Scrap
+[Service]
+Type=oneshot
+WorkingDirectory=/root/puppeteer-h
+ExecStart=/usr/bin/node /root/puppeteer-h/build/main.js
