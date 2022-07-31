@@ -2,4 +2,5 @@ node_modules
 *.png
 data.json
 data.db
-.vscode
+dist
+build
