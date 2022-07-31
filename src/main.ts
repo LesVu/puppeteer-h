@@ -54,7 +54,7 @@ puppeteer
     let tempdata: NHdata[] | undefined;
     if (!lodash.isEmpty(tempdata1)) {
       tempdata = JSON.parse(tempdata1.toString());
-      console.log('Data read');
+      console.log('Read data from data.json');
     }
     // print JSON object
 
@@ -73,15 +73,14 @@ puppeteer
       mongoose
         .connect('mongodb://127.0.0.1:27017/DataNH')
         .then(async db => {
-          mongodb(resPage);
-          await db.disconnect();
+          mongodb(resPage, db);
         })
         .catch(err => console.log(err));
-      sqlite(resPage);
+      // sqlite(resPage);
       const data = JSON.stringify(resPage, null, 2);
       try {
         fs.writeFileSync('data.json', data);
-        console.log('JSON data is saved.');
+        console.log('Successfully write to data.json');
       } catch (err) {
         console.error(err);
       }

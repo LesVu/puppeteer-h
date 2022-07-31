@@ -25,7 +25,7 @@ export async function sqlite(data: NHdata[]) {
   await db.close();
 }
 
-export async function mongodb(data: NHdata[]) {
+export async function mongodb(data: NHdata[], db: typeof mongoose) {
   const ScrapSchema = new mongoose.Schema({
     id: {
       type: Number,
@@ -47,7 +47,8 @@ export async function mongodb(data: NHdata[]) {
     },
   });
   const Scraped = mongoose.model('Scraped', ScrapSchema);
-  Scraped.insertMany(data, function (error) {
-    console.log(error);
+  Scraped.insertMany(data, { ordered: false }, function () {
+    console.log('DB Accessed');
+    db.disconnect();
   });
 }
