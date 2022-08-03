@@ -69,8 +69,8 @@ puppeteer
       });
     }
 
-    // if (!lodash.isEmpty(getDifference(tempdata, resPage))) {
-    if (true) {
+    if (!lodash.isEmpty(getDifference(tempdata, resPage))) {
+      // if (true) {
       mongoose
         .connect('mongodb://127.0.0.1:27017/DataNH')
         .then(async db => {
@@ -96,7 +96,6 @@ puppeteer
       const data = JSON.stringify(resPage, null, 2);
       try {
         fs.writeFileSync('data.json', data);
-        fs.writeFileSync('time', Date.now().toString());
         console.log('Successfully write to data.json');
       } catch (err) {
         console.error(err);
