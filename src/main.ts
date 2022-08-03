@@ -5,6 +5,7 @@
 import puppeteer from 'puppeteer-extra';
 import lodash from 'lodash';
 import fs from 'fs';
+import { io } from 'socket.io-client';
 import { sqlite, mongodb } from './db';
 import { NHdata } from './interface';
 // add stealth plugin and use defaults (all evasion techniques)
@@ -77,9 +78,25 @@ puppeteer
         })
         .catch(err => console.log(err));
       // sqlite(resPage);
+
+      try {
+        const socket = io('ws://localhost:3000');
+
+        socket.on('connect', () => {
+          console.log('connected to discord');
+        });
+        socket.emit('update', resPage, () => {
+          console.log('written to discord');
+          socket.disconnect();
+        });
+      } catch (error) {
+        console.error(error);
+      }
+
       const data = JSON.stringify(resPage, null, 2);
       try {
         fs.writeFileSync('data.json', data);
+        fs.writeFileSync('time', Date.now().toString());
         console.log('Successfully write to data.json');
       } catch (err) {
         console.error(err);
