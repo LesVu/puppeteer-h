@@ -3,7 +3,7 @@
 import { open } from 'sqlite';
 import sqlite3 from 'sqlite3';
 import mongoose from 'mongoose';
-import { NHdata } from './interface';
+import { NHdata } from '../interface';
 
 export async function sqlite(data: NHdata[]) {
   const db = await open({

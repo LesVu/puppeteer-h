@@ -6,7 +6,7 @@ import puppeteer from 'puppeteer-extra';
 import lodash from 'lodash';
 import fs from 'fs';
 import { io } from 'socket.io-client';
-import { sqlite, mongodb } from './db';
+import { mongodb } from './func/db';
 import { NHdata } from './interface';
 // add stealth plugin and use defaults (all evasion techniques)
 import StealthPlugin from 'puppeteer-extra-plugin-stealth';
@@ -37,10 +37,10 @@ puppeteer
     // await page.screenshot({ path: 'bot-debug.png' });
 
     const resPage = await page.evaluate(() => {
-      let s: NodeListOf<HTMLAnchorElement> = document.querySelectorAll(
+      const s: NodeListOf<HTMLAnchorElement> = document.querySelectorAll(
         '.index-popular div a'
       );
-      let arrayP: NHdata[] = [];
+      const arrayP: NHdata[] = [];
       s.forEach(l => {
         const img = l.querySelector('img')!;
         const divP: HTMLDivElement | null = l.querySelector('.caption')!;
@@ -50,7 +50,7 @@ puppeteer
       return arrayP;
     });
 
-    let tempdata1 = fs.readFileSync('data.json', { encoding: 'utf8' });
+    const tempdata1 = fs.readFileSync('data.json', { encoding: 'utf8' });
     // parse JSON object
     let tempdata: NHdata[] | undefined;
     if (!lodash.isEmpty(tempdata1)) {
