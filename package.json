@@ -4,7 +4,8 @@
   "description": "Scrap",
   "main": "main.ts",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "run": "tsc && node build/main_test.js"
   },
   "author": "LesVu",
   "license": "MIT",

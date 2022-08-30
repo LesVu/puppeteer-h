@@ -22,3 +22,11 @@ export interface OptionWriteData {
   JSONFilePath: PathLike;
   wsOption: WsOption;
 }
+
+export interface jGuruData {
+  id: string;
+  img: string;
+  name: string;
+  tags: string[];
+  date: string;
+}
